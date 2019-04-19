@@ -5,7 +5,7 @@ module USRT_RX (
   input        i_Rx_Serial,
   output       o_Rx_DV,
   output [7:0] o_Rx_Byte
-  );
+);
 
   parameter s_IDLE  = 2'b00;
   parameter s_DATA  = 2'b01;
