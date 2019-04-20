@@ -1,5 +1,7 @@
 // APB Bus Interface test bench
 
+`include "bus.v"
+
 module Bus_Interface_TB ();
 
   parameter c_CLOCK_PERIOD = 100; //ns
