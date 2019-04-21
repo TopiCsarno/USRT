@@ -4,7 +4,7 @@ module txshift(
   input        i_Pclk,
   input  [7:0] i_Baud,
   input        i_Enable,
-  input  [7:0] i_Pwdata,
+  input  [7:0] i_Data,
   output reg   o_Tx_Serial,
   output reg   o_Pready
   ); 
@@ -18,7 +18,6 @@ module txshift(
   reg [2:0] r_State       = 0;
   reg [2:0] r_Bit_Index   = 0;
   reg [7:0] r_Clock_Count = 0;
-  reg tmp = 0;
 
   always @ (posedge i_Pclk) begin
     case (r_State)
@@ -44,13 +43,13 @@ module txshift(
         end
       end
 
-    s_DATA : // Küldi a biteket
+    s_DATA : // Küldi az adat biteket
       begin
+        o_Tx_Serial <= i_Data[r_Bit_Index];
         if (r_Clock_Count < i_Baud-1) begin
             r_Clock_Count <= r_Clock_Count + 1;
         end else begin
             r_Clock_Count <= 0;
-            o_Tx_Serial <= i_Pwdata[r_Bit_Index];
             if (r_Bit_Index < 7) begin
               r_Bit_Index <= r_Bit_Index + 1;
             end else begin
@@ -60,19 +59,19 @@ module txshift(
         end
       end
 
-    s_STOP : // stop bit küldése. 1 ciklus
+    s_STOP : // Stop bit küldése. 1 ciklus
       begin
+        o_Tx_Serial <= 1;
         if (r_Clock_Count < i_Baud-1) begin
             r_Clock_Count <= r_Clock_Count + 1;
         end else begin
             r_Clock_Count <= 0;
-            o_Tx_Serial <= 1;
             o_Pready <= 1;
             r_State <= s_FINISH;
         end
       end
 
-    s_FINISH : // enable vissza 0-ra
+    s_FINISH : // Pready vissza 0-ra
       begin
         o_Pready <= 0;
         r_State <= s_IDLE;

@@ -10,7 +10,8 @@ module test_busint();
   reg r_Write   =0;
   reg r_Enable  =0;
 
-  wire [1:0] w_Enable;
+  wire w_Tx_En;
+  wire w_Rx_En;
 
   busint busint1(
     .i_Pclk(r_Clock),
@@ -18,7 +19,8 @@ module test_busint();
     .i_Psel(r_Sel),
     .i_Penable(r_Enable),
     .i_Pwrite(r_Write),
-    .o_Enable(w_Enable)
+    .o_Tx_En(w_Tx_En),
+    .o_Rx_En(w_Rx_En)
     );
 
   always

@@ -6,7 +6,8 @@ module busint (
   input             i_Psel,
   input             i_Penable,
   input             i_Pwrite,
-  output reg [1:0]  o_Enable
+  output reg        o_Tx_En,
+  output reg        o_Rx_En
   );
 
   parameter s_IDLE    = 2'b00;
@@ -23,7 +24,8 @@ module busint (
         if (i_Paddr && i_Psel) begin
           r_State <= s_SETUP;
         end else begin
-          o_Enable <= 2'b00;  //no reg selected
+          o_Tx_En <= 2'b00;  
+          o_Rx_En <= 2'b00;  //no reg selected
           r_State <= s_IDLE;
         end
       end
@@ -32,16 +34,17 @@ module busint (
       begin
         if (i_Paddr && i_Psel && i_Penable ) begin
           if (i_Pwrite)
-            o_Enable <= 2'b11;  //Tx selected
+            o_Tx_En <= 2'b1;  //Tx selected
           else
-            o_Enable <= 2'b10;  //Rx selected
+            o_Rx_En <= 2'b1;  //Rx selected
           r_State <= s_ACCESS;
         end
       end
 
       s_ACCESS :
       begin
-        o_Enable <= 2'b00;
+        o_Tx_En <= 2'b00;
+        o_Rx_En <= 2'b00;
         if (i_Paddr && i_Psel && i_Penable ) begin
           r_State <= s_ACCESS;
         end else begin

@@ -20,7 +20,7 @@ module test_txshift ();
       .i_Pclk(r_Clock),
       .i_Baud(r_Baud),
       .i_Enable(r_Enable),
-      .i_Pwdata(r_Data),
+      .i_Data(r_Data),
       .o_Tx_Serial(w_Tx_Serial),
       .o_Pready(w_Pready)
     );
@@ -33,13 +33,11 @@ module test_txshift ();
     $dumpvars(0,test_txshift);
 
     # c_DELAY;
-    @ (posedge r_Clock);    //üzenet küld
-      r_Data    <= 8'b01010001;
-      r_Enable  <= 1;
+        r_Data    <= 8'b01010011;
+        r_Enable  <= 1;
     @ (posedge w_Pready);
-      r_Data    <= 8'b0;
-      r_Enable  <= 0;
-    @ (posedge r_Clock);
+        r_Data    <= 8'b0;
+        r_Enable  <= 0;
     # c_DELAY;
     $finish;
   end
