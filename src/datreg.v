@@ -1,4 +1,4 @@
-// Tx and Rx data register
+// Rx, Tx data register
 
 module datreg(
   input         i_Pclk,

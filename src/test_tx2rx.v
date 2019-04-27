@@ -9,10 +9,10 @@ module test_tx2rx();
   parameter c_CLOCK_PERIOD = 100; //ns
   parameter c_DELAY = 10000; //ns
 
-  reg       r_Clock   = 0;
-  reg [7:0] r_Baud    = 87;
-  reg       r_Enable  = 0;
-  reg [7:0] r_Data    = 0;
+  reg        r_Clock   = 0;
+  reg [13:0] r_Baud    = 87;
+  reg        r_Enable  = 0;
+  reg [7:0]  r_Data    = 0;
 
   wire        w_Serial;
   wire        w_Tx_Pready;

@@ -2,7 +2,7 @@
 
 module rxshift(
   input             i_Pclk,
-  input  [7:0]      i_Baud,
+  input  [13:0]     i_Baud,
   input             i_Enable,
   input             i_Rx_Serial,
   output reg [7:0]  o_Data,
@@ -15,9 +15,9 @@ module rxshift(
   parameter s_STOP    = 3'b011;
   parameter s_FINISH  = 3'b100;
 
-  reg [2:0] r_State       = 0;
-  reg [2:0] r_Bit_Index   = 0;
-  reg [7:0] r_Clock_Count = 0;
+  reg [2:0]  r_State       = 0;
+  reg [2:0]  r_Bit_Index   = 0;
+  reg [13:0] r_Clock_Count = 0;
 
   always @ (posedge i_Pclk) begin
     case (r_State)

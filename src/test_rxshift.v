@@ -8,10 +8,10 @@ module test_rxshift ();
   parameter c_DELAY = 10000; //ns
   parameter c_BAUD  = 8700;
 
-  reg       r_Clock     = 0;
-  reg [7:0] r_Baud      = 87;
-  reg       r_Enable    = 0;
-  reg       r_Rx_Serial = 1;
+  reg        r_Clock     = 0;
+  reg [13:0] r_Baud      = 87;
+  reg        r_Enable    = 0;
+  reg        r_Rx_Serial = 1;
 
   wire [7:0]  w_Data;    
   wire        w_Done;

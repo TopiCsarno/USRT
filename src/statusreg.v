@@ -31,15 +31,15 @@ module statusreg(
 
     // Baud rate information
     case (r_Status[2:0])
-      3'b000  : assign o_Baud = 8333;  // 1200 bps
-      3'b001  : assign o_Baud = 4166;  // 2400 bps
-      3'b010  : assign o_Baud = 2083;  // 4800 bps
-      3'b011  : assign o_Baud = 1041;  // 9600 bps
-      3'b100  : assign o_Baud = 520;  // 19200 bps
-      3'b101  : assign o_Baud = 260;  // 38400 bps
-      3'b110  : assign o_Baud = 173;  // 57600 bps
-      3'b111  : assign o_Baud = 86;  // 115200 bps
-      default : assign o_Baud = 1041;  // 9600 bps
+      3'b000  : o_Baud <= 8333;  // 1200 bps
+      3'b001  : o_Baud <= 4166;  // 2400 bps
+      3'b010  : o_Baud <= 2083;  // 4800 bps
+      3'b011  : o_Baud <= 1041;  // 9600 bps
+      3'b100  : o_Baud <= 520;  // 19200 bps
+      3'b101  : o_Baud <= 260;  // 38400 bps
+      3'b110  : o_Baud <= 173;  // 57600 bps
+      3'b111  : o_Baud <= 86;  // 115200 bps
+      default : o_Baud <= 1041;  // 9600 bps
     endcase
   end
 endmodule

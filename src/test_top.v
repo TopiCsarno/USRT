@@ -9,13 +9,13 @@ module test_top();
   parameter c_DELAY = 10000; //ns
   parameter c_BAUD = 8700;  //87 * 100ns
 
-  reg       r_Clock     = 0;
-  reg       r_Paddr     = 0;
-  reg       r_Psel      = 0;
-  reg       r_Penable   = 0;
-  reg       r_Pwrite    = 0;
-  reg [7:0] r_Pwdata    = 0;
-  reg       r_Rx_Serial = 0;
+  reg        r_Clock     = 0;
+  reg [31:0] r_Paddr     = 0;
+  reg        r_Psel      = 0;
+  reg        r_Penable   = 0;
+  reg        r_Pwrite    = 0;
+  reg [7:0]  r_Pwdata    = 0;
+  reg        r_Rx_Serial = 0;
 
   wire [7:0] w_Prdata;
   wire       w_Pready;
@@ -28,11 +28,30 @@ module test_top();
       # (c_BAUD); 
       for (n=0; n<8; n=n+1) begin // data bits 
         r_Rx_Serial <= i_Data[n];
-        # (c_BAUD); 
+      # (c_BAUD); 
       end
-
       r_Rx_Serial <= 1'b1;  // stop bit
      end
+  endtask
+
+  task t_Bus_Data;
+    input [7:0] i_Data;
+    input [1:0] i_Address;
+    input       i_Write;
+    begin
+     r_Pwdata <= i_Data;
+     r_Pwrite <= i_Write;
+     r_Paddr[31:30] <= i_Address; 
+     r_Psel <= 1;   
+     @ (posedge r_Clock);
+     r_Penable <= 1;
+     @ (posedge r_Clock);  
+      if (i_Address == 2'b10 && !i_Write)
+        t_Recieve_Byte(8'b01010011); 
+     @ (posedge w_Pready);
+     r_Penable <= 0;
+     r_Psel <= 0;   
+    end
   endtask
 
   top t(
@@ -55,38 +74,20 @@ module test_top();
     $dumpvars(0,test_top);
     r_Rx_Serial <= 1;
 
-    // test RX
+    // test status register
     # (c_DELAY);
-      r_Paddr <= 1;
-      r_Psel <= 1;
-      r_Pwrite <= 0;
-    @ (posedge r_Clock);  // exactly 1 clock
-      r_Penable <= 1;
-    @ (posedge r_Clock);  // exactly 1 clock
-      t_Recieve_Byte(8'b01010011); 
-    @ (posedge w_Pready); // when Rx complete
-      r_Penable <= 0;
-      r_Paddr <= 0;
-      r_Psel <= 0;
+      // status, write, 115200 bps, parity off
+      t_Bus_Data(8'b00000111, 2'b00, 1);
     # (c_DELAY);
-
-    // test TX
+      // status, read
+      t_Bus_Data(8'b0, 2'b00, 0);
     # (c_DELAY);
-      r_Paddr <= 1;
-      r_Psel <= 1;
-      r_Pwrite <= 1;
-    @ (posedge r_Clock);  // exactly 1 clock
-      r_Penable <= 1;
-    @ (posedge r_Clock);  // exactly 1 clock
-      r_Pwdata <= (8'b01010011);
-    @ (posedge w_Pready); // when Rx complete
-      r_Penable <= 0;
-      r_Paddr <= 0;
-      r_Psel <= 0;
+      // tx, write
+      t_Bus_Data(8'b11010110, 2'b01, 1);
     # (c_DELAY);
-
+      // rx, read
+      t_Bus_Data(8'b0, 2'b10, 0);
+    # (c_DELAY);
     $finish;
   end
 endmodule
-
-
