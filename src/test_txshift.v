@@ -1,4 +1,5 @@
 `include "txshift.v"
+`include "baudgen.v"
 
 `timescale 1ns/10ps
 
@@ -14,15 +15,22 @@ module test_txshift ();
 
   wire      w_Tx_Serial;
   wire      w_Pready;
+  wire      w_Bclk;
 
   // Instantiation
+  baudgen bg(
+    .i_Pclk(r_Clock),
+    .i_Baud(r_Baud),
+    .o_Bclk(w_Bclk)
+    );
+
   txshift txs(
-      .i_Pclk(r_Clock),
-      .i_Baud(r_Baud),
-      .i_Enable(r_Enable),
-      .i_Data(r_Data),
-      .o_Tx_Serial(w_Tx_Serial),
-      .o_Pready(w_Pready)
+    .i_Pclk(r_Clock),
+    .i_Bclk(w_Bclk),
+    .i_Enable(r_Enable),
+    .i_Data(r_Data),
+    .o_Tx_Serial(w_Tx_Serial),
+    .o_Pready(w_Pready)
     );
 
   always
@@ -35,6 +43,8 @@ module test_txshift ();
     # c_DELAY;
         r_Data    <= 8'b01010011;
         r_Enable  <= 1;
+    @ (posedge r_Clock);
+        r_Enable  <= 0;
     @ (posedge w_Pready);
         r_Data    <= 8'b0;
         r_Enable  <= 0;

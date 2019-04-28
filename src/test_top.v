@@ -25,10 +25,10 @@ module test_top();
     integer n;
     begin
       r_Rx_Serial <= 1'b0;  // start bit
-      # (c_BAUD); 
+      # (c_BAUD * 2); 
       for (n=0; n<8; n=n+1) begin // data bits 
         r_Rx_Serial <= i_Data[n];
-      # (c_BAUD); 
+      # (c_BAUD * 2); 
       end
       r_Rx_Serial <= 1'b1;  // stop bit
      end
@@ -78,9 +78,6 @@ module test_top();
     # (c_DELAY);
       // status, write, 115200 bps, parity off
       t_Bus_Data(8'b00000111, 2'b00, 1);
-    # (c_DELAY);
-      // status, read
-      t_Bus_Data(8'b0, 2'b00, 0);
     # (c_DELAY);
       // tx, write
       t_Bus_Data(8'b11010110, 2'b01, 1);
