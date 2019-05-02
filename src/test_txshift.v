@@ -6,16 +6,30 @@
 module test_txshift ();
 
   parameter c_CLOCK_PERIOD = 100; //ns
-  parameter c_DELAY = 10000; //ns
+  parameter c_DELAY = 11111; //ns
 
   reg        r_Clock   = 0;
   reg [13:0] r_Baud    = 87;
   reg        r_Enable  = 0;
-  reg [7:0]  r_Data    = 0;
+  reg [3:0]  r_Count   = 11;
+  reg [10:0] r_Data    = 0;
 
   wire      w_Tx_Serial;
-  wire      w_Pready;
+  wire      w_Done;
   wire      w_Bclk;
+
+  task t_Write_Byte;
+    input [10:0] i_Data;
+    begin
+        r_Data    <= i_Data;
+        r_Enable  <= 1;
+    @ (posedge r_Clock);
+        r_Enable  <= 0;
+    @ (posedge w_Done);
+        r_Data    <= 8'b0;
+        r_Enable  <= 0;
+    end
+  endtask
 
   // Instantiation
   baudgen bg(
@@ -28,9 +42,10 @@ module test_txshift ();
     .i_Pclk(r_Clock),
     .i_Bclk(w_Bclk),
     .i_Enable(r_Enable),
+    .i_Count(r_Count),
     .i_Data(r_Data),
     .o_Tx_Serial(w_Tx_Serial),
-    .o_Pready(w_Pready)
+    .o_Done(w_Done)
     );
 
   always
@@ -40,16 +55,11 @@ module test_txshift ();
     $dumpfile("test.vcd");
     $dumpvars(0,test_txshift);
 
-    # c_DELAY;
-        r_Data    <= 8'b01010011;
-        r_Enable  <= 1;
+    # (c_DELAY);
     @ (posedge r_Clock);
-        r_Enable  <= 0;
-    @ (posedge w_Pready);
-        r_Data    <= 8'b0;
-        r_Enable  <= 0;
-    # c_DELAY;
+      t_Write_Byte(11'b10000011010);
+      t_Write_Byte(11'b10111001110);
+    # (c_DELAY);
     $finish;
   end
 endmodule
-
