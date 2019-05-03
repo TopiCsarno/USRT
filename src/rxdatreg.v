@@ -7,11 +7,10 @@ module rxdatreg(
   input         i_Pop,
   input [7:0]   i_Data,
   output reg [7:0] o_Data,
-  output reg       o_Full,
+  output reg       o_Full
   );
 
   always @ (posedge i_Pclk) begin
-    o_Ready <= 0;
     if (i_Reset) begin
       o_Data <= 8'b0;
       o_Full <= 0;

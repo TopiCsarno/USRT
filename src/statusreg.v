@@ -1,45 +1,44 @@
-// 
+// status register
 
 module statusreg(
   input         i_Pclk,
+  input         i_Reset,
   input         i_Enable,
   input         i_Pwrite,
   input [7:0]   i_Data,
-  output reg        o_Enable,
-  output reg [7:0]  o_Data,
-  output reg        o_Parity,
-  output reg [13:0] o_Baud
+  output reg [7:0]  o_Status,
+  output reg        o_Ready,
+  output            o_Parity,
+  output [13:0]     o_Baud
   );
 
-  reg [7:0] r_Status;
-
-  always @ (posedge i_Pclk) begin
-    if (i_Enable) begin
-      if (i_Pwrite) begin // status reg felulirasa
-        r_Status <= i_Data;
-        o_Enable <= 1;
-      end else begin
-        o_Data <= r_Status;
-        o_Enable <= 1;
-      end
+  always @ (posedge i_Pclk) begin   // write register
+    if (i_Reset) begin
+      o_Status <= 8'b0;
+      o_Ready <= 0;
     end else begin
-      o_Enable <= 0;
+      if (i_Enable & i_Pwrite) begin
+        o_Status <= i_Data;
+        o_Ready <= 1;
+      end else begin
+        o_Ready <= 0;
+      end
     end
-
-    // Parity bit
-    o_Parity <= r_Status[3:3];
-
-    // Baud rate information
-    case (r_Status[2:0])
-      3'b000  : o_Baud <= 8333;  // 1200 bps
-      3'b001  : o_Baud <= 4166;  // 2400 bps
-      3'b010  : o_Baud <= 2083;  // 4800 bps
-      3'b011  : o_Baud <= 1041;  // 9600 bps
-      3'b100  : o_Baud <= 520;  // 19200 bps
-      3'b101  : o_Baud <= 260;  // 38400 bps
-      3'b110  : o_Baud <= 173;  // 57600 bps
-      3'b111  : o_Baud <= 86;  // 115200 bps
-      default : o_Baud <= 1041;  // 9600 bps
-    endcase
   end
+
+  // Parity type
+  assign o_Parity = o_Status[3:3];
+
+  // Baud rate 
+  assign o_Baud = 
+    (o_Status[2:0] == 3'b000) ?  8333 : // 1200 bps
+    (o_Status[2:0] == 3'b001) ?  4166 : // 2400 bps
+    (o_Status[2:0] == 3'b010) ?  2083 : // 4800 bps
+    (o_Status[2:0] == 3'b011) ?  1041 : // 9600 bps
+    (o_Status[2:0] == 3'b100) ?   520 : // 19200 bps
+    (o_Status[2:0] == 3'b101) ?   260 : // 38400 bps
+    (o_Status[2:0] == 3'b110) ?   173 : // 58600 bps
+    (o_Status[2:0] == 3'b111) ?    86 : // 115200 bps
+                                 1041 ; // default 9600
+
 endmodule

@@ -15,7 +15,7 @@ module test_txdatreg();
   reg [7:0] r_Data    = 0;
 
   wire [7:0] w_Data;
-  wire       w_Pready;
+  wire       w_Ready;
   wire       w_Busy;
 
   task t_Write_Byte; // try to write byte to the register
@@ -39,7 +39,7 @@ module test_txdatreg();
     .i_Data(r_Data),
     .o_Data(w_Data),
     .o_Busy(w_Busy),
-    .o_Pready(w_Pready)
+    .o_Ready(w_Ready)
     );
 
   always

@@ -16,7 +16,6 @@ module test_rxdatreg();
 
   wire [7:0] w_Data;
   wire       w_Full;
-  wire       w_Ready;
 
   rxdatreg datreg1(
     .i_Pclk(r_Clock),
@@ -25,8 +24,7 @@ module test_rxdatreg();
     .i_Pop(r_Pop),
     .i_Data(r_Data),
     .o_Data(w_Data),
-    .o_Full(w_Full),
-    .o_Ready(w_Ready)
+    .o_Full(w_Full)
     );
 
   always
