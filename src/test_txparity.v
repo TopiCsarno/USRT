@@ -1,4 +1,5 @@
 `timescale 1ns/10ps
+`include "txparity.v"
 
 module test_txparity();
 
@@ -26,17 +27,15 @@ always
   initial begin
     $dumpfile("test.vcd");
     $dumpvars(0,test_txparity);
+    r_Data = 8'b00110101;
     r_Parity = 2'b01;
-    r_Data = 8'b00000001;
     #100
+    r_Parity = 2'b10;
+    #100
+    r_Data = 8'b00110100;
     r_Parity = 2'b01;
-    r_Data = 8'b00000011;
-	#100
+    #100
     r_Parity = 2'b10;
-	r_Data = 8'b00000001;
-	#100
-    r_Parity = 2'b10;
-	r_Data = 8'b00000011;
     #100
    
 	#1000 $finish;
