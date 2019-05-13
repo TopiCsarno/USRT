@@ -1,9 +1,7 @@
 `timescale 1ns/10ps
+`include "rxparity.v"
 
 module test_rxparity();
-
-  //parameter c_CLOCK_PERIOD = 10; //ns
-  //parameter c_DELAY = 10000; //ns
 
   reg        r_Clock   = 0;
   reg [1:0]  r_Parity = 2'b01;
@@ -22,25 +20,28 @@ module test_rxparity();
     );
 
 always
-    //# (c_CLOCK_PERIOD/2) r_Clock = !r_Clock;
 	#5 r_Clock = !r_Clock;
   initial begin
     $dumpfile("test.vcd");
     $dumpvars(0,test_rxparity);
-    r_Parity = 2'b01;
-    r_Data = 11'b00000000111;
-    #100
-    r_Parity = 2'b01;
-    r_Data = 11'b00000001111;
-	#100
-    r_Parity = 2'b10;
-	r_Data = 11'b00000000111;
-	#100
-    r_Parity = 2'b10;
-	r_Data = 11'b00000001111;
-    #100
-   
 
-    #1000 $finish;
+    // EVEN
+    r_Parity = 2'b01; 
+    r_Data = 11'b10001101010; // =53, correct
+    #100       //sp76543210s
+
+    r_Parity = 2'b01;
+    r_Data = 11'b11001101010; // =53, incorrect
+    #100       //sp76543210s
+
+    // ODD
+    r_Parity = 2'b10;
+    r_Data = 11'b10001101000; // =52, correct
+    #100       //sp76543210s
+
+    r_Parity = 2'b10;
+    r_Data = 11'b11001101000; // =52, incorrect
+    #100       //sp76543210s
+    $finish;
   end
 endmodule

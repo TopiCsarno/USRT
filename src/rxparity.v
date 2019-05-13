@@ -37,7 +37,7 @@ module rxparity( 	//ParityChecker
         	o_ParityOK<=1;
       endcase
       
-		o_Data <= i_Data[9:2];
+		o_Data <= i_Data[8:1];
      
 
 	end
