@@ -49,7 +49,7 @@ module statusreg(
     (r_Control[2:0] == 3'b100) ?   520 : // 19200 bps
     (r_Control[2:0] == 3'b101) ?   260 : // 38400 bps
     (r_Control[2:0] == 3'b110) ?   173 : // 58600 bps
-    (r_Control[2:0] == 3'b111) ?    86 : // 115200 bps
+    (r_Control[2:0] == 3'b111) ?    87 : // 115200 bps
                                  1041 ; // default 9600
 
   assign o_Status = {1'b0,i_Tx_Busy,i_Rx_Full,r_Control};
