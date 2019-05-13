@@ -11,7 +11,6 @@ module test_txshift ();
   reg        r_Clock   = 0;
   reg [13:0] r_Baud    = 87;
   reg        r_Enable  = 0;
-  reg [3:0]  r_Count   = 11;
   reg [10:0] r_Data    = 0;
 
   wire      w_Tx_Serial;
@@ -42,7 +41,6 @@ module test_txshift ();
     .i_Pclk(r_Clock),
     .i_Bclk(w_Bclk),
     .i_Enable(r_Enable),
-    .i_Count(r_Count),
     .i_Data(r_Data),
     .o_Tx_Serial(w_Tx_Serial),
     .o_Done(w_Done)

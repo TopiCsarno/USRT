@@ -1,4 +1,5 @@
 `timescale 1ns/10ps
+`include "txparity.v"
 
 module test_txparity();
 

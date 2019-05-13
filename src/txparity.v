@@ -38,7 +38,7 @@ module txparity ( //ParityGen
         	paritybit <= 0;
       endcase
       
-      o_Data <= {startbit,i_Data[7:0],paritybit,stopbit };
+      o_Data <= {stopbit,paritybit,i_Data[7:0],startbit };
     end
 
 
