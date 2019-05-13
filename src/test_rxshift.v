@@ -11,7 +11,6 @@ module test_rxshift ();
 
   reg        r_Clock     = 0;
   reg [13:0] r_Baud      = 87;
-  reg        r_Enable    = 0;
   reg        r_Rx_Serial = 1;
 
   wire [10:0]  w_Data;
@@ -41,7 +40,6 @@ module test_rxshift ();
   rxshift rxs(
       .i_Pclk(r_Clock),
       .i_Bclk(w_Bclk),
-      .i_Enable(r_Enable),
       .i_Rx_Serial(r_Rx_Serial),
       .o_Data(w_Data),
       .o_Done(w_Done)
@@ -56,7 +54,6 @@ module test_rxshift ();
 
     # (c_DELAY);
     # (c_DELAY);
-        r_Enable  <= 1;
     @ (posedge r_Clock);
         t_Recieve_Byte(11'b10100011010);
     # (c_DELAY);

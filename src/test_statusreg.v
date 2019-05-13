@@ -9,6 +9,8 @@ module test_statusreg();
   parameter c_DELAY = 1111; //ns
 
   reg       r_Clock   = 0;
+  reg       r_Tx_Busy = 0;
+  reg       r_Rx_Full = 0;
   reg       r_Reset   = 0;
   reg       r_Enable  = 0;
   reg       r_Pwrite  = 0;
@@ -22,6 +24,8 @@ module test_statusreg();
 
   statusreg sr(
     .i_Pclk(r_Clock),
+    .i_Tx_Busy(r_Tx_Busy),
+    .i_Rx_Full(r_Rx_Full),
     .i_Reset(r_Reset),
     .i_Enable(r_Enable),
     .i_Pwrite(r_Pwrite),
@@ -39,6 +43,8 @@ module test_statusreg();
     @ (posedge r_Clock);
         r_Reset <= 0;
     @ (posedge r_Clock);
+      r_Tx_Busy <= 1;
+    @ (posedge r_Clock);
         r_Pwrite <= 1;
         r_Enable <= 1;
         r_Data <= 8'b00001101;  //260 baud, 1 parity
@@ -51,6 +57,13 @@ module test_statusreg();
     @ (posedge r_Clock);
         r_Enable <= 0;
     # c_DELAY;
+    @ (posedge r_Clock);
+        r_Reset <= 1;
+    @ (posedge r_Clock);
+        r_Reset <= 0;
+    @ (posedge r_Clock);
+      r_Rx_Full <= 1;
+    @ (posedge r_Clock);
     $finish;
    end 
 endmodule

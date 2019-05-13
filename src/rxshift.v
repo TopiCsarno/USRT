@@ -3,7 +3,6 @@
 module rxshift(
   input             i_Pclk,
   input             i_Bclk,
-  input             i_Enable,
   input             i_Rx_Serial,
   output            o_Done,
   output reg [10:0] o_Data
@@ -15,7 +14,7 @@ module rxshift(
 
   // control
   always @ (posedge i_Pclk) begin
-    if (i_Enable && i_Rx_Serial == 0) begin //start bit
+    if (i_Rx_Serial == 0) begin //start bit
       r_Start <= 1;
     end
     if (r_Bit_Index == 10 && !i_Bclk) begin // finish condition

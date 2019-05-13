@@ -15,8 +15,7 @@ module test_rx();
   reg        r_Clock     = 0;     // from bus
   reg        r_Reset     = 0;     // from bus
   reg [13:0] r_Baud      = 5;     // from bus
-  reg        r_Pop       = 0;     // from bus ???
-  reg        r_Enable    = 1;     // from status? 
+  reg        r_Pop       = 0;     // from busint
   reg [1:0]  r_Parity = 2'b01;    // from status
   reg        r_Rx_Serial = 1;     // from other periferia
 
@@ -51,7 +50,6 @@ module test_rx();
   rxshift rxs(
       .i_Pclk(r_Clock),
       .i_Bclk(w_Bclk),
-      .i_Enable(r_Enable),
       .i_Rx_Serial(r_Rx_Serial),
       .o_Data(w_Data_11),
       .o_Done(w_Done)
