@@ -8,12 +8,12 @@ module txparity ( //ParityGen
   reg stopbit = 1;
   reg paritybit = 0;
   
-  reg count = 0;
-  reg i = 1;
+  integer count = 0;
+  integer i = 1;
 
-  always @ (posedge i_Pclk)
+  always @ (posedge i_Pclk, i_Parity)
 	begin
-    	count <= 0;
+    	count = 0;
       
       for(i=0; i<=7; i=i+1)
     	begin
