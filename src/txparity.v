@@ -2,14 +2,14 @@ module txparity ( //ParityGen
   input 		i_Pclk, //lock
   input	[1:0]	i_Parity, //Paritytype
   input [7:0]	i_Data, //rawData send
-  output [10:0]	o_Data //Datasend
+  output reg [10:0]	o_Data //Datasend
 );
-  reg startbit <= 0;
-  reg stopbit <= 1;
-  reg paritybit <= 0;
+  reg startbit = 0;
+  reg stopbit = 1;
+  reg paritybit = 0;
   
-  integer count <= 0;
-  integer i <= 1;
+  reg count = 0;
+  reg i = 1;
 
   always @ (posedge i_Pclk)
 	begin
@@ -38,9 +38,9 @@ module txparity ( //ParityGen
         	paritybit <= 0;
       endcase
       
-      o_Data <= {startbit,i_Data[7:0],paritybit,stopbit }
+      o_Data <= {startbit,i_Data[7:0],paritybit,stopbit };
+    end
 
-	end
 
  
 endmodule
