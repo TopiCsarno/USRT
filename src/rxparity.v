@@ -7,13 +7,13 @@ module rxparity( 	//ParityChecker
   output reg		o_ParityOK //Paritycheck result
 );
 
-	reg count = 0;
-	reg i = 1;
+	integer count = 0;
+	integer i = 1;
 
   always @ (posedge i_Pclk)
 	begin
       
-    	count <= 0;
+    	count = 0;
       
       for(i=1; i<=9; i=i+1)
     	begin
