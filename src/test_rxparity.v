@@ -28,16 +28,16 @@ always
     $dumpfile("test.vcd");
     $dumpvars(0,test_rxparity);
     r_Parity = 2'b01;
-    r_Data = 11'b00000000011;
+    r_Data = 11'b00000000111;
     #100
     r_Parity = 2'b10;
-    r_Data = 11'b00000000011;
+    r_Data = 11'b00000000111;
 	#100
     r_Parity = 2'b01;
-	r_Data = 11'b00000000111;
+	r_Data = 11'b00000001111;
 	#100
     r_Parity = 2'b10;
-	r_Data = 11'b00000000111;
+	r_Data = 11'b00000001111;
     #100
    
 
