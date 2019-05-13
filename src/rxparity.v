@@ -3,16 +3,18 @@ module rxparity( 	//ParityChecker
   input 		i_Pclk, //clock
   input	[1:0]	i_Parity, //Paritytype
   input [10:0]	i_Data, //input Data
-  output [7:0]	o_Data //raw Data out
-  output reg	o_ParityOK //Paritycheck result
+  output reg [7:0]	o_Data, //raw Data out
+  output reg		o_ParityOK //Paritycheck result
 );
 
-	integer count <= 0;
-	integer i <= 1;
+	reg count = 0;
+	reg i = 1;
 
   always @ (posedge i_Pclk)
 	begin
+      
     	count <= 0;
+      
       for(i=1; i<=9; i=i+1)
     	begin
           if(i_Data[i]==1)
@@ -34,10 +36,9 @@ module rxparity( 	//ParityChecker
         default: //noparity
         	o_ParityOK<=1;
       endcase
-      if(o_ParityOK==1)  
-        o_Data <= i_Data[9:2];
-      else
-    	o_Data <= 0; //parityerror data
+      
+		o_Data <= i_Data[9:2];
+     
 
 	end
 
