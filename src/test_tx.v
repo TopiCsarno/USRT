@@ -21,7 +21,7 @@ module test_tx ();
   wire        w_Bclk;       // output of baudgen
   wire        w_Ready;      // output of datreg
   wire [7:0]  w_Data_8;     // output of datreg
-  wire [10:0] w_Data_10;    // output of parity
+  wire [10:0] w_Data_11;    // output of parity
   wire        w_Busy;       // output of datreg
   wire        w_Done;       // output of shift
   wire        w_Tx_Serial;  // output of shift
@@ -55,7 +55,7 @@ module test_tx ();
     .i_Pclk(r_Clock),
     .i_Parity(r_Parity),
     .i_Data(w_Data_8),
-    .o_Data(w_Data_10)
+    .o_Data(w_Data_11)
     );
 
   baudgen bg(
@@ -68,7 +68,7 @@ module test_tx ();
     .i_Pclk(r_Clock),
     .i_Bclk(w_Bclk),
     .i_Enable(w_Ready),
-    .i_Data(w_Data_10),
+    .i_Data(w_Data_11),
     .o_Tx_Serial(w_Tx_Serial),
     .o_Done(w_Done)
     );

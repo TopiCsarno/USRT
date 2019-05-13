@@ -12,7 +12,6 @@ module test_rxshift ();
   reg        r_Clock     = 0;
   reg [13:0] r_Baud      = 87;
   reg        r_Enable    = 0;
-  reg  [3:0] r_Count     = 11;
   reg        r_Rx_Serial = 1;
 
   wire [10:0]  w_Data;
@@ -24,7 +23,7 @@ module test_rxshift ();
     integer n;
     begin
       @ (posedge w_Bclk);
-      for (n=0; n<r_Count; n=n+1) begin // data bits
+      for (n=0; n<11; n=n+1) begin // data bits
         r_Rx_Serial <= i_Data[n];
       # (c_BAUD * 2);
       end
@@ -43,7 +42,6 @@ module test_rxshift ();
       .i_Pclk(r_Clock),
       .i_Bclk(w_Bclk),
       .i_Enable(r_Enable),
-      .i_Count(r_Count),
       .i_Rx_Serial(r_Rx_Serial),
       .o_Data(w_Data),
       .o_Done(w_Done)

@@ -4,7 +4,6 @@ module rxshift(
   input             i_Pclk,
   input             i_Bclk,
   input             i_Enable,
-  input [3:0]       i_Count,
   input             i_Rx_Serial,
   output            o_Done,
   output reg [10:0] o_Data
@@ -19,7 +18,7 @@ module rxshift(
     if (i_Enable && i_Rx_Serial == 0) begin //start bit
       r_Start <= 1;
     end
-    if (r_Bit_Index == i_Count-1 && !i_Bclk) begin // finish condition
+    if (r_Bit_Index == 10 && !i_Bclk) begin // finish condition
       r_Start <= 0;
       r_Finish <= 1;
     end else begin
@@ -30,7 +29,7 @@ module rxshift(
   // counter
   always @ (posedge i_Bclk) begin
     if (r_Start) begin
-      if (r_Bit_Index < i_Count-1) begin
+      if (r_Bit_Index < 10) begin
         r_Bit_Index <= r_Bit_Index + 1;
       end
     end else begin
@@ -45,7 +44,7 @@ module rxshift(
     end
   end
 
-assign o_Done = r_Finish & ~(r_Bit_Index == i_Count-1); // register edge detection
+assign o_Done = r_Finish & ~(r_Bit_Index == 10); // register edge detection
 
 endmodule
 
