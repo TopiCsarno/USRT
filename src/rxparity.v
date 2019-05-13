@@ -18,7 +18,7 @@ module rxparity( 	//ParityChecker
       for(i=1; i<=9; i=i+1)
     	begin
           if(i_Data[i]==1)
-        	count <= count + 1;
+        	count = count + 1;
 	  	end
       case (i_Parity)
         2'b01: begin //even parity
