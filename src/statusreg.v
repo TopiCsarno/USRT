@@ -10,7 +10,7 @@ module statusreg(
   input [7:0]   i_Data,
   output reg        o_Ready,
   output [7:0]      o_Status,
-  output            o_Parity,
+  output [1:0]      o_Parity,
   output [13:0]     o_Baud
   );
 

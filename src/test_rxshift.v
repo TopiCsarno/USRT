@@ -6,7 +6,7 @@
 module test_rxshift ();
 
   parameter c_CLOCK_PERIOD = 100; //ns
-  parameter c_DELAY = 10000; //ns
+  parameter c_DELAY = 11111; //ns
   parameter c_BAUD = 8700;  //87 * 100ns
 
   reg        r_Clock     = 0;
@@ -21,7 +21,6 @@ module test_rxshift ();
     input [10:0] i_Data;
     integer n;
     begin
-      @ (posedge w_Bclk);
       for (n=0; n<11; n=n+1) begin // data bits
         r_Rx_Serial <= i_Data[n];
       # (c_BAUD * 2);
@@ -54,7 +53,6 @@ module test_rxshift ();
 
     # (c_DELAY);
     # (c_DELAY);
-    @ (posedge r_Clock);
         t_Recieve_Byte(11'b10100011010);
     # (c_DELAY);
     # (c_DELAY);

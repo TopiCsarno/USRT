@@ -11,7 +11,7 @@ module txparity ( //ParityGen
   integer count = 0;
   integer i = 1;
 
-  always @ (posedge i_Pclk, i_Parity)
+  always @ (posedge i_Pclk)
 	begin
     	count = 0;
       

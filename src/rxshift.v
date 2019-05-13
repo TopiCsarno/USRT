@@ -14,7 +14,7 @@ module rxshift(
 
   // control
   always @ (posedge i_Pclk) begin
-    if (i_Rx_Serial == 0) begin //start bit
+    if (i_Rx_Serial == 0 && i_Bclk == 1) begin //start bit
       r_Start <= 1;
     end
     if (r_Bit_Index == 10 && !i_Bclk) begin // finish condition

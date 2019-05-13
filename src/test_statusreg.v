@@ -47,7 +47,7 @@ module test_statusreg();
     @ (posedge r_Clock);
         r_Pwrite <= 1;
         r_Enable <= 1;
-        r_Data <= 8'b00001101;  //260 baud, 1 parity
+        r_Data <= 8'b00010101;  //260 baud, 2 parity
     @ (posedge r_Clock);
         r_Enable <= 0;
         r_Data <= 0;
