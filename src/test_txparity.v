@@ -2,7 +2,7 @@
 
 module test_txparity();
 
-  parameter c_CLOCK_PERIOD = 100; //ns
+  //parameter c_CLOCK_PERIOD = 100; //ns
   //parameter c_DELAY = 10000; //ns
 
   reg        r_Clock   = 0;
@@ -21,25 +21,24 @@ module test_txparity();
     );
 
 always
-    # (c_CLOCK_PERIOD/2) r_Clock = !r_Clock;
-
+    //# (c_CLOCK_PERIOD/2) r_Clock = !r_Clock;
+	#5 r_Clock = !r_Clock;
   initial begin
     $dumpfile("test.vcd");
     $dumpvars(0,test_txparity);
     r_Parity = 2'b01;
     r_Data = 8'b00000011;
-    #10
+    #100
     r_Parity = 2'b10;
     r_Data = 8'b00000011;
-	#10
+	#100
     r_Parity = 2'b01;
 	r_Data = 8'b00000111;
-	#10
+	#100
     r_Parity = 2'b10;
 	r_Data = 8'b00000111;
-    #10
+    #100
    
-
-    $finish;
+	#1000 $finish;
   end
 endmodule
